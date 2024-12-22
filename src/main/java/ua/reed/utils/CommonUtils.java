@@ -1,5 +1,7 @@
 package ua.reed.utils;
 
+import ua.reed.exceptions.GenerateSecretHashException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -9,6 +11,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ua.reed.exceptions.ErrorMessages.ENV_HAS_NO_PROPERTY_MSG;
+import static ua.reed.exceptions.ErrorMessages.INVALID_KEY;
+import static ua.reed.exceptions.ErrorMessages.UNSUPPORTED_ALGORITHM;
 import static ua.reed.utils.Constants.HASH_SECRET_ALGORITHM;
 
 public final class CommonUtils {
@@ -24,10 +28,9 @@ public final class CommonUtils {
     /**
      * Calculates a secret hash for a user in order to determine the user in a Cognito pool.
      *
-     * @param username username
-     * @param clientId client id
+     * @param username     username
+     * @param clientId     client id
      * @param clientSecret client secret
-     *
      * @return calculated secret hash for a user
      */
     public static String calculateSecretHash(final String username, final String clientId, final String clientSecret) {
@@ -46,9 +49,9 @@ public final class CommonUtils {
             byte[] rawHmac = mac.doFinal(message.getBytes());
             return Base64.getEncoder().encodeToString(rawHmac);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Failed to create hash via unsupported algorithm - '%s'".formatted(hashAlgorithm), e);
+            throw new GenerateSecretHashException(UNSUPPORTED_ALGORITHM.getMessage().formatted(hashAlgorithm), e);
         } catch (InvalidKeyException e) {
-            throw new RuntimeException("Cannot init secret key", e);
+            throw new GenerateSecretHashException(INVALID_KEY.getMessage(), e);
         }
     }
 }

@@ -1,6 +1,10 @@
 package ua.reed.utils;
 
-import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import ua.reed.dto.CustomSignInRequest;
 import ua.reed.dto.CustomSignUpRequest;
 import ua.reed.dto.UserVerificationRequest;

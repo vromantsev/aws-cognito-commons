@@ -16,8 +16,12 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-import static ua.reed.exceptions.ErrorMessages.*;
-import static ua.reed.utils.CloudUtils.*;
+import static ua.reed.exceptions.ErrorMessages.FAILED_SIGN_UP_MSG;
+import static ua.reed.exceptions.ErrorMessages.FAILED_TO_CONFIRM_USER;
+import static ua.reed.exceptions.ErrorMessages.FAILED_TO_SIGN_IN_USER;
+import static ua.reed.utils.CloudUtils.createEmailVerificationRequest;
+import static ua.reed.utils.CloudUtils.createInitiateAuthRequest;
+import static ua.reed.utils.CloudUtils.createSignUpRequest;
 
 @Service
 public class SimpleAuthService implements AuthService {

@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import ua.reed.dto.CustomChangePasswordRequest;
+import ua.reed.dto.CustomConfirmChangePasswordRequest;
 import ua.reed.dto.CustomSignInRequest;
 import ua.reed.dto.CustomSignInResponse;
 import ua.reed.dto.CustomSignUpRequest;
+import ua.reed.dto.ResetPasswordRequest;
 import ua.reed.dto.UserVerificationRequest;
 import ua.reed.service.AuthService;
 
@@ -61,5 +64,39 @@ public class AuthController {
         return ResponseEntity
                 .ok()
                 .body(this.authService.login(request));
+    }
+
+    /**
+     * Allows to change password. This flow is for the authenticated users, because aut token is mandatory.
+     * This feature can not be used for the users who forget their password.
+     *
+     * @param request change password request
+     */
+    @PostMapping("/change-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void changePassword(@RequestBody final CustomChangePasswordRequest request) {
+        this.authService.changePassword(request);
+    }
+
+    /**
+     * Allows to reset password by leveraging Cognito's 'forgot password' feature.
+     *
+     * @param request reset password request
+     */
+    @PostMapping("/reset-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void resetPassword(@RequestBody final ResetPasswordRequest request) {
+        this.authService.resetPassword(request);
+    }
+
+    /**
+     * Verifies a password reset. For those who use 'forgot password' feature.
+     *
+     * @param request confirm change password request
+     */
+    @PostMapping("/verify-reset-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void verifyResetPassword(@RequestBody final CustomConfirmChangePasswordRequest request) {
+        this.authService.confirmResetPassword(request);
     }
 }
